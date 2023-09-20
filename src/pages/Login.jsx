@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import screenshot1 from './assets/images/screenshot1.png'
-import screenshot2 from './assets/images/screenshot2.png'
-import screenshot3 from './assets/images/screenshot3.png'
-import screenshot4 from './assets/images/screenshot4.png'
-import brand from './assets/images/brand.png'
-import cover from './assets/images/cover.png'
-import './assets/css/Homepage.css'
-import microsoft from './assets/images/microsoft.png'
-import googleplay from './assets/images/googleplay.png'
-import Foooter from './Foooter'
+import screenshot1 from '../assets/images/screenshot1.png'
+import screenshot2 from '../assets/images/screenshot2.png'
+import screenshot3 from '../assets/images/screenshot3.png'
+import screenshot4 from '../assets/images/screenshot4.png'
+import brand from '../assets/images/brand.png'
+import cover from '../assets/images/cover.png'
+import '../assets/css/Homepage.css'
+import microsoft from '../assets/images/microsoft.png'
+import googleplay from '../assets/images/googleplay.png'
+import Foooter from '../Footer'
 
-const HomePage = () => {
+const LoginPage = () => {
 
     const ref = useRef()
     const [disabled, setDisabled] = useState(true)
@@ -158,4 +158,4 @@ const HomePage = () => {
 
 }
 
-export default HomePage
+export default LoginPage

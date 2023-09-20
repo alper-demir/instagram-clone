@@ -1,0 +1,21 @@
+.active{
+    font-weight: bold;
+}
+
+a .svg {
+    margin-top: -1px;
+}
+
+button .svg{
+    margin-top: -1px;
+}
+
+a:hover .svg {
+    transform: scale(1.05);
+    transition-duration: 250ms;
+}
+
+button:hover .svg{
+    transform: scale(1.05);
+    transition-duration: 250ms;
+}
