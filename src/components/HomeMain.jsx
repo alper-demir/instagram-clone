@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom"
 import img from "../assets/images/1.jpg"
 
 const HomeMain = () => {
     return (
         <div className="flex max-xl:w-full mt-[3.15rem] mx-auto px-40 max-2xl:px-20 max-[1395px]:px-0 max-md:mt-20">
 
-
             {/* hikaye & post */}
+            
             <div className="text-center text-xs w-[69.7%] max-[1160px]:w-full max-xl:w-full mb-20">
                 <div className="hikayeler flex gap-[1.29rem] items-center mx-4">
                     <div className="flex flex-col justify-center items-center">
@@ -22,6 +23,7 @@ const HomeMain = () => {
                     </div>
 
                 </div>
+                <Link to="/register" className="p-2 bg-indigo-500 text-lg text-white rounded hover:bg-indigo-600 transition-all">Kaydol sayfası (tıkla)</Link>
 
                 <div className="w-[60%] flex flex-col mx-auto max-2xl:h-[550px] my-6 max-sm:w-full">
 

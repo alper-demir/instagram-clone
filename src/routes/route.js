@@ -32,6 +32,10 @@ if (auth) {
 
         },
         {
+            path: "/register",
+            element: <LoginPage />
+        },
+        {
             path: "*",
             element: "error page"
         }
