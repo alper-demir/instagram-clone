@@ -1,0 +1,19 @@
+input {
+    border: 1px solid #DBDBDB;
+    width: 16rem;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    margin-bottom: 6px;
+    border-radius: 3px;
+}
+
+.line {
+    height: 1px;
+    width: 97px;
+    background-color: #DBDBDB;
+}
+
+footer li {
+    margin: 0 0.5rem;
+}
