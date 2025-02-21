@@ -14,6 +14,7 @@ import AccountsLayout from "./layout/AccountsLayout";
 import Edit from "./pages/Accounts/Edit";
 import PostCreate from "./pages/PostCreate";
 import Notification from "./pages/Notification";
+import About from "./pages/About";
 
 const routes = createBrowserRouter([
 
@@ -34,6 +35,7 @@ const routes = createBrowserRouter([
             { path: "/post/:postId", element: <PostDetail /> },
             { path: "/post/create", element: <PostCreate /> },
             { path: "/notifications", element: <Notification /> },
+            { path: "/about", element: <About /> },
 
             // ProfileEdit
             {
