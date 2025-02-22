@@ -62,7 +62,7 @@ const Chat = () => {
                         messages && messages.map(message => {
                             //Mevcut kullanıcının mesajları (sağda)
                             return message.sender._id === userId ? (
-                                <>
+                                <div key={message._id}>
                                     <div className="flex justify-end my-2">
                                         <div className="max-w-[65%] bg-[#3797F0] text-white p-3 rounded-l-2xl rounded-r-sm shadow-sm">
                                             <p>{message.message}</p>
@@ -71,20 +71,19 @@ const Chat = () => {
                                     <span className="text-xs block mt-1 text-right">
                                         {new Date(message.createdAt).toLocaleTimeString()}
                                     </span>
-                                </>
+                                </div>
                             ) : (
                                 //Diğer katılımcının mesajları (solda)
-                                <>
+                                <div key={message._id}>
                                     <div className="flex justify-start my-2">
                                         <div className="max-w-[65%] bg-light-border dark:bg-dark-border p-3 rounded-r-2xl rounded-l-sm shadow-sm">
-                                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non et earum laboriosam nemo, ipsam tempora omnis dolorem accusamus quisquam porro.</p>
-
+                                            <p>{message.message}</p>
                                         </div>
                                     </div>
                                     <span className="text-xs flex justify-normal mt-1 text-right">
                                         {new Date(message.createdAt).toLocaleTimeString()}
                                     </span>
-                                </>
+                                </div>
                             )
 
                         })
