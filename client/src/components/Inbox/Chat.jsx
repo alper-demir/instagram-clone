@@ -28,7 +28,15 @@ const Chat = () => {
 
             {/* Chat kısmı */}
             <div className="overflow-y-scroll h-screen">
-                chat id: {conversationId}
+
+                <div className="h-[80vh]">
+                    chat id: {conversationId}
+                </div>
+
+                <div className="flex items-center mx-5 relative">
+                    <input type="text" className="!rounded-full flex-1 !pl-5 !pr-20" />
+                    <span className="absolute right-3 bottom-[0.82rem] text-sm">Gönder</span>
+                </div>
             </div>
         </div>
     )
