@@ -5,6 +5,8 @@ import { FiSettings, FiBookmark, FiMoon, FiFlag, FiLogOut, FiUser } from "react-
 import { MdOutlineHistory } from "react-icons/md";
 import { logout } from "../services/authService";
 import useNotification from "../hooks/useNotification";
+import { FcAbout } from "react-icons/fc";
+
 const Siderbar = () => {
 
     const { username, profilePicture } = useSelector(state => state.user.user)
@@ -16,6 +18,10 @@ const Siderbar = () => {
     };
 
     const handleSettingsClick = () => {
+        navigate(`/accounts/edit`);
+    };
+
+    const handleAboutClick = () => {
         navigate(`/accounts/edit`);
     };
 
@@ -190,6 +196,7 @@ const Siderbar = () => {
                             <MenuItem icon={<FiBookmark />} text="Kaydedilenler" onClick={handleSavedClick} />
                             <MenuItem icon={<FiMoon />} text="Görünümü değiştir" onClick={toggleDarkMode} />
                             <MenuItem icon={<FiFlag />} text="Bir sorun bildir" />
+                            <MenuItem icon={<FcAbout />} text="Hakkında" onClick={handleAboutClick} />
                             <hr className="border-light-border dark:border-dark-border my-2" />
                             <MenuItem icon={<FiUser />} text="Hesap Değiştir" />
                             <MenuItem onClick={logoutUser} icon={<FiLogOut />} text="Çıkış yap" />
