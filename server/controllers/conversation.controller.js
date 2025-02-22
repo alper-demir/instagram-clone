@@ -7,7 +7,7 @@ export const getConversations = async (req, res) => {
             .populate("participants", "username profilePicture")
             .populate("lastMessage");
 
-        res.status(200).json({conversations});
+        res.status(200).json({ conversations });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -26,6 +26,19 @@ export const createConversation = async (req, res) => {
         }
 
         return res.status(200).json(conversation);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const getOneConversation = async (req, res) => {
+    const { conversationId } = req.params;
+    try {
+        const conversation = await Conversation.findById(conversationId)
+            .populate("participants", "username profilePicture")
+            .populate("lastMessage");
+        if (!conversation) { return res.status(404).json({ message: "Conversation error", type: "error" }) }
+        return res.status(200).json({ conversation });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
