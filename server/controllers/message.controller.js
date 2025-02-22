@@ -31,7 +31,7 @@ export const getMessages = async (req, res) => {
 
         const messages = await Message.find({ conversationId }).populate("sender", "username profilePicture");
 
-        res.status(200).json(messages);
+        res.status(200).json({ messages });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
