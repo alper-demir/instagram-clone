@@ -23,42 +23,42 @@ const MesagesLayout = () => {
 
     return (
         <div className="w-full h-screen">
-            <div className="flex">
-                {/* Sol taraf chat yapılan kişiler geçmişi son mesajlar */}
-                <div className="border-r-[1px] border-light-border dark:border-dark-border h-screen w-1/5 min-w-fit">
-                    {
-                        conversations.length > 0 && conversations.map(conversation => {
-                            const otherParticipant = conversation.participants.find(participant => participant._id !== userId);
+            <div className="flex h-screen">
+                {/* Sol taraf: Chat geçmişi */}
+                <div className="border-r-[1px] border-light-border dark:border-dark-border 
+                    w-1/5 min-w-[250px] max-w-[300px]">
+                    {conversations.length > 0 && conversations.map(conversation => {
+                        const otherParticipant = conversation.participants.find(participant => participant._id !== userId);
 
-                            return (
-                                conversation.lastMessage !== null && otherParticipant && (
-                                    <div key={conversation._id} className="hover:bg-light-hover dark:hover:bg-dark-hover cursor-pointer">
-                                        <Link to={`t/${conversation._id}`}>
-                                            <div className="flex items-center gap-x-2 p-3">
-                                                <div>
-                                                    <img src={otherParticipant.profilePicture} alt="Avatar" className="w-12 h-12 rounded-full object-cover" />
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <div className="text-sm">{otherParticipant.username}</div>
-                                                    <div className="text-xs">
-                                                        <span>Sen: </span> <span>{conversation.lastMessage.message}</span> · <span>{timeAgo(conversation.lastMessage.createdAt)}</span>
-                                                    </div>
+                        return (
+                            conversation.lastMessage !== null && otherParticipant && (
+                                <div key={conversation._id} className="hover:bg-light-hover dark:hover:bg-dark-hover cursor-pointer">
+                                    <Link to={`t/${conversation._id}`}>
+                                        <div className="flex items-center gap-x-2 p-3">
+                                            <div>
+                                                <img src={otherParticipant.profilePicture} alt="Avatar"
+                                                    className="w-12 h-12 min-h-12 min-w-12 rounded-full object-cover" />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <div className="text-sm">{otherParticipant.username}</div>
+                                                <div className="text-xs truncate max-w-[180px]" title={conversation.lastMessage.message}>
+                                                    <span>Sen: </span> <span>{conversation.lastMessage.message}</span> · <span>{timeAgo(conversation.lastMessage.createdAt)}</span>
                                                 </div>
                                             </div>
-                                        </Link>
-                                    </div>
-                                )
-                            );
-                        })}
-
-
+                                        </div>
+                                    </Link>
+                                </div>
+                            )
+                        );
+                    })}
                 </div>
 
-                {/* Main chat kısmı  */}
-                <div className="w-full">
+                {/* Main chat kısmı */}
+                <div className="flex-1">
                     <Outlet />
                 </div>
             </div>
+
         </div>
     )
 }

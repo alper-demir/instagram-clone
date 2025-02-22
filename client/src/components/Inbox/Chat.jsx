@@ -1,7 +1,33 @@
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
+import { getOneConversationData, getOneConversationMessages } from "../../services/chatService";
+import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 
 const Chat = () => {
     const { conversationId } = useParams();
+
+    const [messages, setMessages] = useState([]);
+    const [conversation, setConversation] = useState();
+    const [otherParticipant, setOtherParticipant] = useState({}); // Chat sistemi şuan 2 kişilik ileride grup chat için yapıyı değiştirmek gerekir.
+    const userId = useSelector(state => state.user.user._id);
+
+    const getConversationMessages = async () => {
+        const { messages, type } = await getOneConversationMessages(conversationId);
+        type === "success" && setMessages(messages);
+    }
+
+    const getConversationData = async () => {
+        const { conversation, type } = await getOneConversationData(conversationId);
+        type === "success" && setConversation(conversation);
+        console.log(conversation);
+
+        const otherUser = conversation.participants.filter(p => p._id !== userId);
+        setOtherParticipant(otherUser[0]);
+
+    }
+
+    useEffect(() => { getConversationData(); getConversationMessages(); }, [conversationId])
+
     return (
 
         <div className="flex flex-col w-full">
@@ -9,8 +35,8 @@ const Chat = () => {
             <div className="p-4 py-5 flex justify-between border-b-[1px] border-light-border dark:border-dark-border">
                 {/* Sol taraf */}
                 <div className="flex gap-x-3 items-center">
-                    <div><img src="" alt="Avatar" className="w-11 h-11 rounded-full object-cover" /></div>
-                    <div>Chat Katılımcıları [] gören kişi hariç</div>
+                    <div><Link to={`/${otherParticipant.username}`}><img src={otherParticipant.profilePicture} alt="Avatar" className="w-11 h-11 rounded-full object-cover" /></Link></div>
+                    <div><Link to={`/${otherParticipant.username}`}>{otherParticipant.username}</Link></div>
                 </div>
                 {/* Sağ taraf ikonlar*/}
                 <div className="flex gap-x-4 items-center">
@@ -29,13 +55,41 @@ const Chat = () => {
             {/* Chat kısmı */}
             <div className="overflow-y-scroll h-screen">
 
-                <div className="h-[80vh]">
-                    chat id: {conversationId}
+                <div className="h-[80vh] break-all p-4">
+
+
+                    {
+                        messages && messages.map(message => {
+                            //Mevcut kullanıcının mesajları (sağda)
+                            return message.sender._id === userId ? (
+                                <div className="flex justify-end my-2">
+                                    <div className="max-w-[65%] bg-[#3797F0] text-white p-3 rounded-l-2xl rounded-r-sm shadow-sm">
+                                        <p>{message.message}</p>
+                                        <span className="text-xs block mt-1 text-right">
+                                            {new Date(message.createdAt).toLocaleTimeString()}
+                                        </span>
+                                    </div>
+                                </div>
+                            ) : (
+                                //Diğer katılımcının mesajları (solda)
+                                <div className="flex justify-start my-2">
+                                    <div className="max-w-[65%] bg-light-border dark:bg-dark-border p-3 rounded-r-2xl rounded-l-sm shadow-sm">
+                                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non et earum laboriosam nemo, ipsam tempora omnis dolorem accusamus quisquam porro.</p>
+                                        <span className="text-xs block mt-1 text-right">
+                                            12:36 PM
+                                        </span>
+                                    </div>
+                                </div>
+                            )
+
+                        })
+                    }
+
                 </div>
 
                 <div className="flex items-center mx-5 relative">
-                    <input type="text" className="!rounded-full flex-1 !pl-5 !pr-20" />
-                    <span className="absolute right-3 bottom-[0.82rem] text-sm">Gönder</span>
+                    <input placeholder="Mesaj..." type="text" className="!text-sm !rounded-full flex-1 !pl-5 !pr-20 border-[1px] !py-3 border-light-border dark:border-dark-border" />
+                    <span className="absolute right-3 bottom-[1.2rem] text-sm">Gönder</span>
                 </div>
             </div>
         </div>
