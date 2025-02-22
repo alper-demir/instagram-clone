@@ -42,7 +42,7 @@ const MesagesLayout = () => {
                                             <div className="flex flex-col">
                                                 <div className="text-sm">{otherParticipant.username}</div>
                                                 <div className="text-xs truncate max-w-[180px]" title={conversation.lastMessage.message}>
-                                                    <span>Sen: </span> <span>{conversation.lastMessage.message}</span> · <span>{timeAgo(conversation.lastMessage.createdAt)}</span>
+                                                    <span>{conversation.lastMessage.sender === userId ? (<>Sen</>) : (<>{otherParticipant.username}</>)}: </span> <span>{conversation.lastMessage.message}</span> · <span>{timeAgo(conversation.lastMessage.createdAt)}</span>
                                                 </div>
                                             </div>
                                         </div>
