@@ -15,6 +15,9 @@ import Edit from "./pages/Accounts/Edit";
 import PostCreate from "./pages/PostCreate";
 import Notification from "./pages/Notification";
 import About from "./pages/About";
+import Chat from './components/Inbox/Chat';
+import Inbox from "./components/Inbox/Inbox";
+import MesagesLayout from "./layout/MesagesLayout";
 
 const routes = createBrowserRouter([
 
@@ -36,6 +39,13 @@ const routes = createBrowserRouter([
             { path: "/post/create", element: <PostCreate /> },
             { path: "/notifications", element: <Notification /> },
             { path: "/about", element: <About /> },
+            {
+                path: "/direct", element: <MesagesLayout />,
+                children: [
+                    { path: "inbox", element: <Inbox /> },
+                    { path: "t/:conversationId", element: <Chat /> },
+                ]
+            },
 
             // ProfileEdit
             {
