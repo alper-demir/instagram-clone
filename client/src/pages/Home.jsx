@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark, FaComment, FaClock } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { timeAgo } from "../utils/dateUtils";
+import Loading from "../components/Loading";
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
@@ -60,7 +61,7 @@ const Home = () => {
         dataLength={posts.length}
         next={fetchPosts}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={<Loading />}
         endMessage={<p style={{ textAlign: "center" }}>No more posts to show</p>}
       >
         {posts.map(post => (

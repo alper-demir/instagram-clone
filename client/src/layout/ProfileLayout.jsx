@@ -3,6 +3,7 @@ import useToast from "../hooks/useToast";
 import { followAndUnfollowUser, getFollowStatus, getUserProfile } from "../services/userService";
 import { Link, NavLink, Outlet, useNavigate, useParams } from "react-router-dom";
 import useAuth from './../hooks/useAuth';
+import Loading from "../components/Loading";
 
 const ProfileLayout = () => {
 
@@ -13,14 +14,18 @@ const ProfileLayout = () => {
     const { currentUser } = useAuth();
 
     const [followStatus, setFollowStatus] = useState(null);
+    const [followButtonLoading, setFollowButtonLoading] = useState(false)
+    const [mediaLoading, setMediaLoading] = useState(true);
 
     const fetchUser = async () => {
+        setMediaLoading(true)
         const { message, type, user } = await getUserProfile(username);
         if (type === "error") {
             showToast(message, type);
             navigate("/");
         }
         setUser(user);
+        setMediaLoading(false)
         console.log(user);
     }
 
@@ -33,10 +38,11 @@ const ProfileLayout = () => {
 
     const toggleFollow = async () => {
         // takip et takipten çık.
+        setFollowButtonLoading(true)
         const data = await followAndUnfollowUser(user._id, currentUser._id);
         console.log(data);
         fetchFollowStatus()
-
+        setFollowButtonLoading(false)
     }
 
     useEffect(() => { fetchUser(); fetchFollowStatus(); }, [username]);
@@ -62,7 +68,11 @@ const ProfileLayout = () => {
                                 ) : (
                                     <>
                                         <div><button onClick={toggleFollow} className="dark:bg-dark-button-bg dark:hover:bg-dark-button-hover rounded-lg bg-light-button-bg hover:bg-light-button-bg-hover px-4 py-1 text-sm font-semibold cursor-pointer">
-                                            {followStatus && followStatus === "pending" ? (<>İstek gönderildi</>) : followStatus === "accepted" ? (<>Takipten çık</>) : (<>Takip et</>)}
+                                            {
+                                                followButtonLoading ? (<Loading />) : (
+                                                    followStatus && followStatus === "pending" ? (<>İstek gönderildi</>) : followStatus === "accepted" ? (<>Takipten çık</>) : (<>Takip et</>)
+                                                )
+                                            }
                                         </button></div>
                                     </>
                                 )
@@ -88,23 +98,25 @@ const ProfileLayout = () => {
 
 
             {
-                currentUser && currentUser.username !== username && user?.privacy === "private" && !user?.followings?.includes(currentUser?._id) ? (
-                    <>Bu hesap gizli. Gönderileri görmek için takip et.</>
-                ) : (
-                    <>
-                        <div className="flex gap-x-14 max-md:gap-x-2 justify-center items-center text-sm  sm:mt-0">
-                            <NavLink end to="" className={({ isActive }) => isActive ? "border-t-2 pt-4 font-semibold" : "pt-4"}>GÖNDERİLER</NavLink>
-                            {
-                                currentUser && currentUser.username === username ? (
-                                    <NavLink to="saved" className={({ isActive }) => isActive ? "border-t-2 pt-4 font-semibold" : "pt-4"}>KAYDEDİLENLER</NavLink>
-                                ) : (<></>)
-                            }
-                            <NavLink to="tagged" className={({ isActive }) => isActive ? "border-t-2 pt-4 font-semibold" : "pt-4"}>ETİKETLENENLER</NavLink>
-                        </div>
-                        <div className="mt-4">
-                            <Outlet />
-                        </div>
-                    </>
+                currentUser && currentUser.username !== username && user?.privacy === "private" && !user?.followers?.includes(currentUser?._id) ? (
+                    <p className="mt-2">Bu hesap gizli. Gönderileri görmek için takip et.</p>
+                ) : mediaLoading ? (<div className="flex justify-center items-center mt-10" ><Loading /></div>) : (
+                    (
+                        <>
+                            <div className="flex gap-x-14 max-md:gap-x-2 justify-center items-center text-sm  sm:mt-0">
+                                <NavLink end to="" className={({ isActive }) => isActive ? "border-t-2 pt-4 font-semibold" : "pt-4"}>GÖNDERİLER</NavLink>
+                                {
+                                    currentUser && currentUser.username === username ? (
+                                        <NavLink to="saved" className={({ isActive }) => isActive ? "border-t-2 pt-4 font-semibold" : "pt-4"}>KAYDEDİLENLER</NavLink>
+                                    ) : (<></>)
+                                }
+                                <NavLink to="tagged" className={({ isActive }) => isActive ? "border-t-2 pt-4 font-semibold" : "pt-4"}>ETİKETLENENLER</NavLink>
+                            </div>
+                            <div className="mt-4">
+                                <Outlet />
+                            </div>
+                        </>
+                    )
                 )
             }
 
