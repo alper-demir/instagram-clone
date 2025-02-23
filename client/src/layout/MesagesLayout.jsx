@@ -3,10 +3,12 @@ import { useSelector } from "react-redux"
 import { Link, Outlet } from "react-router-dom"
 import { getConversations } from "../services/chatService"
 import { timeAgo } from './../utils/dateUtils';
+import { io } from "socket.io-client";
 
 const MesagesLayout = () => {
 
     const userId = useSelector(state => state.user.user._id)
+    const socket = io("http://localhost:3000"); // Backend URL
 
     const [conversations, setConversations] = useState([])
 
@@ -17,9 +19,29 @@ const MesagesLayout = () => {
 
     }
 
+    const initializeSocket = () => {
+        socket.on("connect", () => {
+            console.log("MesagesLayout socket bağlandı:", socket.id);
+            socket.emit("joinPersonalRoom", userId); // Kullanıcı ID'sine özel odaya katıl
+        });
+
+        socket.on("conversationUpdate", (updatedConversation) => {
+            console.log("Güncellenmiş conversation alındı:", updatedConversation);
+            fetchConversations();
+        });
+
+        return () => {
+            socket.off("conversationUpdate");
+            socket.disconnect();
+        };
+    };
+
     useEffect(() => {
         fetchConversations();
-    }, [])
+        const cleanup = initializeSocket();
+
+        return () => cleanup(); // Temizleme
+    }, [userId]);
 
     return (
         <div className="w-full h-screen">

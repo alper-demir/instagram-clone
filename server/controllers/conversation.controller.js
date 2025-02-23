@@ -7,6 +7,13 @@ export const getConversations = async (req, res) => {
             .populate("participants", "username profilePicture")
             .populate("lastMessage");
 
+        // Son mesajın tarihine göre sıralama
+        conversations.sort((a, b) => {
+            const aCreatedAt = a.lastMessage ? a.lastMessage.createdAt : new Date(0);
+            const bCreatedAt = b.lastMessage ? b.lastMessage.createdAt : new Date(0);
+            return bCreatedAt - aCreatedAt;
+        });
+
         res.status(200).json({ conversations });
     } catch (error) {
         res.status(500).json({ error: error.message });

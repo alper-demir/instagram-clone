@@ -24,8 +24,18 @@ export const sendMessage = async (req, res) => {
 
         await Conversation.findByIdAndUpdate(conversation._id, { lastMessage: newMessage });
 
+        const updatedConversation = await Conversation.findById(conversation._id)
+            .populate("participants", "username profilePicture")
+            .populate("lastMessage");
+
         // Socket ile mesajı gönder
         io.to(conversation._id.toString()).emit("receiveMessage", populatedMessage); // Odaya emit et
+
+        // Güncellenmiş conversation'ı tüm katılımcılara gönder
+        updatedConversation.participants.forEach((participant) => {
+            io.to(participant._id.toString()).emit("conversationUpdate", updatedConversation);
+        });
+
 
         res.status(200).json(newMessage); // İstemciye yeni mesajı döndür
     } catch (error) {
