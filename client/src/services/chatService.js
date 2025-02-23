@@ -50,3 +50,13 @@ export const getOneConversationData = async (conversationId) => {
         return { message: error.message, type: "error" }
     }
 }
+
+export const sendMessage = async (sender, receiver, message) => {
+    try {
+        const response = await axios.post(`${MESSAGE_API_URL}`, { sender, receiver, message });
+        if (!response) return;
+        return { newMessage: response.data }
+    } catch (error) {
+        return { message: error.message, type: "error" }
+    }
+}
