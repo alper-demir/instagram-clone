@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 const MesagesLayout = () => {
 
     const userId = useSelector(state => state.user.user._id)
-    const socket = io("http://localhost:3000"); // Backend URL
+    const socket = io(import.meta.env.VITE_API_BASE_URL);
 
     const [conversations, setConversations] = useState([])
 

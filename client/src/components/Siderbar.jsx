@@ -22,7 +22,7 @@ const Siderbar = () => {
     };
 
     const handleAboutClick = () => {
-        navigate(`/accounts/edit`);
+        navigate(`/about`);
     };
 
     const menuItems = [
