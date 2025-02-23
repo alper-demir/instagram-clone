@@ -9,7 +9,7 @@ const chatSocket = (io) => {
         });
 
         // Mesaj gönderme
-        socket.on("sendMessage", ({ conversationId, message }) => {
+        socket.on("message", ({ conversationId, message }) => {
             io.to(conversationId).emit("receiveMessage", message);
             console.log(`📩 Yeni mesaj:`, message);
         });

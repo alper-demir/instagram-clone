@@ -1,10 +1,12 @@
 import { Server } from "socket.io";
 import chatSocket from "../socket/chatSocket.js";
 
+let io; // global
+
 const socketConfig = (server) => {
-    const io = new Server(server, {
+    io = new Server(server, {
         cors: {
-            origin: "*", // Frontend URL
+            origin: process.env.CLIENT_URL || "/",
             methods: ["GET", "POST"],
         },
     });
@@ -22,4 +24,5 @@ const socketConfig = (server) => {
     return io;
 };
 
-export default socketConfig;
+export { io }
+export default socketConfig 
