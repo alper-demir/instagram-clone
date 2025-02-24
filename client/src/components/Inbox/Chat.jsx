@@ -33,20 +33,42 @@ const Chat = () => {
     const initializeSocket = () => {
         socket.on("connect", () => {
             console.log("Socket bağlandı:", socket.id);
-            socket.emit("joinRoom", conversationId); // Odaya katıl
+            socket.emit("joinRoom", conversationId);
         });
 
         socket.on("receiveMessage", (newMessage) => {
-            console.log("Yeni mesaj alındı:", newMessage);
-            setMessages((prev) => [...prev, newMessage]); // Mesajları güncelle
+            setMessages((prev) => [...prev, newMessage]);
+            // Başka kullanıcıdan gelen mesajı okundu olarak işaretle
+            if (newMessage.sender._id !== userId) {
+                socket.emit("markMessagesAsSeen", { conversationId, userId: newMessage.sender._id });
+            }
         });
 
-        // Temizleme fonksiyonu
+        socket.on("receiveMarkAsSeen", ({ conversationId: seenConversationId }) => {
+            if (seenConversationId === conversationId) {
+                setMessages(prev => prev.map(message => ({
+                    ...message,
+                    isSeen: message.sender._id === userId ? true : message.isSeen
+                })));
+            }
+        });
+
         return () => {
             socket.off("receiveMessage");
+            socket.off("receiveMarkAsSeen");
             socket.disconnect();
         };
     };
+
+    useEffect(() => {
+        // Sohbete katılınca ve mesajlar gönderilince okundu bilgisini güncelle
+        if (messages.length > 0) {
+            const lastMessage = messages[messages.length - 1];
+            if (lastMessage.sender._id !== userId) {
+                socket.emit("markMessagesAsSeen", { conversationId, userId: lastMessage.sender._id });
+            }
+        }
+    }, [conversationId, messages.length]);
 
     const handleMessageChange = (e) => setMessageText(e.target.value);
 
@@ -99,6 +121,9 @@ const Chat = () => {
                             <span className="text-xs mt-1">
                                 {new Date(message.createdAt).toLocaleTimeString()}
                             </span>
+                            {
+                                message.sender._id === userId && message.isSeen && <span className="text-xs">Görüldü</span>
+                            }
                         </div>
                     ) : (
                         <div key={message._id} className="flex flex-col items-start my-2">
