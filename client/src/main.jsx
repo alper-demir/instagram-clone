@@ -3,7 +3,7 @@ import './index.css'
 import routes from "./routes.jsx"
 import { RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { store } from "../store/store"
+import { store } from "../src/store/store"
 import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById('root')).render(

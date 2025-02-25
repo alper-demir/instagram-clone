@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useToast from "../../hooks/useToast";
 import { FiUpload, FiImage, FiTrash2 } from "react-icons/fi";
 import { getUserProfile, updateUserProfile, updateUserProfilePicture } from "../../services/userService";
-import { setUser } from "../../../store/userStore";
+import { setUser } from "../../store/userStore";
 
 const Edit = () => {
     const [originalData, setOriginalData] = useState(null);

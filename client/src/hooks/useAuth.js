@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { setUser } from "../../store/userStore";
+import { setUser } from "../store/userStore";
 import { useDispatch } from "react-redux";
 
 const useAuth = () => {
