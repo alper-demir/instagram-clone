@@ -10,6 +10,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { FaHeart, FaRegHeart, FaComment, FaShare, FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { timeAgo } from './../utils/dateUtils';
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { MdDelete, MdEdit } from "react-icons/md";
 
 const PostDetail = () => {
     const { postId } = useParams();
@@ -120,7 +123,7 @@ const PostDetail = () => {
                         {/* Post Details */}
                         <div className="w-full md:w-1/3 flex flex-col">
                             {/* User Info */}
-                            <div className="flex items-center mb-4 p-3">
+                            <div className="flex items-center mb-4 p-3 relative">
                                 <Link to={`/${post.userId.username}`}>
                                     <img
                                         src={post.userId.profilePicture}
@@ -129,6 +132,36 @@ const PostDetail = () => {
                                     />
                                 </Link>
                                 <Link to={`/${post.userId.username}`}><span className="font-semibold">{post.userId.username}</span></Link>
+
+                                {/* menu elemanı div render etmiyor dolayısıyla classname almıyor */}
+                                <Menu>
+                                    <MenuButton className="absolute top-0 right-0 p-1 rounded-full hover:bg-light-hover dark:hover:bg-dark-hover cursor-pointer transition duration-300">
+                                        <HiOutlineDotsHorizontal className="text-2xl" />
+                                    </MenuButton>
+
+                                    <MenuItems
+                                        transition
+                                        anchor="top end"
+                                        className="w-52 origin-top-right rounded-xl border border-light-border dark:border-dark-border bg-white dark:bg-dark-bg-secondary p-1 text-sm/6 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 shadow-lg dark:text-dark-text-primary text-light-text-primary"
+                                    >
+                                        <MenuItem>
+                                            <button onClick={() => console.log("Edit çalıştı")} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
+                                                <MdEdit />
+                                                Edit
+                                            </button>
+                                        </MenuItem>
+
+                                        <MenuItem>
+                                            <button onClick={() => console.log("Delete çalıştı")} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
+                                                <MdDelete />
+                                                Delete
+                                            </button>
+                                        </MenuItem>
+
+                                    </MenuItems>
+
+                                </Menu>
+
                             </div>
 
                             {/* Caption */}
