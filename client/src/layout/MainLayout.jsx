@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Siderbar from "../components/Siderbar";
 import Footer from './../components/Footer';
 import { useEffect } from "react";
+import ModalManager from "../components/modals/ModalManager";
 
 const MainLayout = () => {
     const location = useLocation();
@@ -29,6 +30,7 @@ const MainLayout = () => {
                     {!isChatPage && <Footer />}
                 </div>
             </div>
+            <ModalManager/>
         </div>
     );
 };
