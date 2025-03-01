@@ -80,7 +80,7 @@ export const updatePost = async (req, res) => { // Only caption can be updated, 
 export const deletePost = async (req, res) => {
     const { postId } = req.params;
     try {
-        await Post.findByIdAndUpdate(postId, { active: false });
+        await Post.findByIdAndDelete(postId);
         res.status(204).json({ message: "Post deleted successfully!" });
     } catch (error) {
         res.status(500).json({ message: "Error delete post", error });
