@@ -146,7 +146,11 @@ export const getUserByUsername = async (req, res) => {
     const { username } = req.params;
 
     try {
-        const user = await User.findOne({ username }).select("-password").populate("posts");
+        const user = await User.findOne({ username }).select("-password").populate([
+            { path: "posts" },
+            { path: "followers", select: "username profilePicture" },
+            { path: "followings", select: "username profilePicture" }
+        ]);
         if (!user) { return res.status(404).json({ message: "User not found" }); }
         // posts and savedPosts will be populated here later
         res.status(200).json(user);

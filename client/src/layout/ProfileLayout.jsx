@@ -5,7 +5,8 @@ import { Link, NavLink, Outlet, useNavigate, useParams } from "react-router-dom"
 import useAuth from './../hooks/useAuth';
 import Loading from "../components/Loading";
 import { startConversation } from "../services/chatService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../store/modalStore";
 
 const ProfileLayout = () => {
 
@@ -14,6 +15,7 @@ const ProfileLayout = () => {
     const { showToast } = useToast();
     const navigate = useNavigate();
     const { currentUser } = useAuth();
+    const dispatch = useDispatch();
     const userId = useSelector(state => state.user.user._id);
 
     const [followStatus, setFollowStatus] = useState(null);
@@ -62,6 +64,14 @@ const ProfileLayout = () => {
         navigate(`/direct/t/${conversation._id}`);
     }
 
+    const handleOpenFollowersModal = (commentLikes) => {
+        dispatch(openModal({ modalType: "UserListModal", modalData: { list: user.followers, title: "Takipçiler" } }))
+    }
+
+    const handleOpenFollowingsModal = (commentLikes) => {
+        dispatch(openModal({ modalType: "UserListModal", modalData: { list: user.followings, title: "Takip edilenler" } }))
+    }
+
     return (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 h-screen">
             <div className="mt-3 flex flex-col sm:flex-row gap-x-6 items-center border-b-[1px] border-light-border dark:border-dark-border p-10 pb-12 w-full">
@@ -100,8 +110,18 @@ const ProfileLayout = () => {
                     </div>
                     <div className="flex flex-col sm:flex-row gap-x-10 items-center">
                         <div className="flex gap-x-1"><span className="font-semibold">{user && user.posts.length}</span><span>gönderi</span></div>
-                        <div className="flex gap-x-1"><span className="font-semibold">{user && user.followers.length}</span><span>takipçi</span></div>
-                        <div className="flex gap-x-1"><span className="font-semibold">{user && user.followings.length}</span><span>takip</span></div>
+                        <div className="flex gap-x-1">
+                            <span className="font-semibold">
+                                {user && user.followers.length}
+                            </span>
+                            <button className="cursor-pointer" onClick={handleOpenFollowersModal}>takipçi</button>
+                        </div>
+                        <div className="flex gap-x-1">
+                            <span className="font-semibold">
+                                {user && user.followings.length}
+                            </span>
+                            <button className="cursor-pointer" onClick={handleOpenFollowingsModal}>takip</button>
+                        </div>
                     </div>
                     <div>
                         {user?.bio && <span>{user.bio}</span>}
