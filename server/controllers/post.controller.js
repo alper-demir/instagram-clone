@@ -93,7 +93,8 @@ export const getOnePost = async (req, res) => {
         const post = await Post.findById(postId)
             .populate([
                 { path: "userId", select: ['username', 'profilePicture'] },
-                { path: "comments", populate: { path: "userId", select: ['profilePicture', 'username'] } }
+                { path: "likes", select: "username profilePicture" },
+                { path: "comments", populate: [{ path: "userId", select: ['profilePicture', 'username'] }, { path: "likes", select: "username profilePicture" }] }
             ]);
         if (!post) { return res.status(404).json({ message: "Post not found" }); }
         const user = await User.findById(userId);
