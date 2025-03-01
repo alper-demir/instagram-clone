@@ -171,26 +171,30 @@ const PostDetail = () => {
                                         <HiOutlineDotsHorizontal className="text-2xl" />
                                     </MenuButton>
 
-                                    <MenuItems
-                                        transition
-                                        anchor="top end"
-                                        className="w-52 origin-top-right rounded-xl border border-light-border dark:border-dark-border bg-white dark:bg-dark-bg-secondary p-1 text-sm/6 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 shadow-lg dark:text-dark-text-primary text-light-text-primary"
-                                    >
-                                        <MenuItem>
-                                            <button onClick={handleOpenEditModal} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
-                                                <MdEdit />
-                                                Edit
-                                            </button>
-                                        </MenuItem>
+                                    {
+                                        post.userId._id === userId && (
+                                            <MenuItems
+                                                transition
+                                                anchor="top end"
+                                                className="w-52 origin-top-right rounded-xl border border-light-border dark:border-dark-border bg-white dark:bg-dark-bg-secondary p-1 text-sm/6 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 shadow-lg dark:text-dark-text-primary text-light-text-primary"
+                                            >
+                                                <MenuItem>
+                                                    <button onClick={handleOpenEditModal} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
+                                                        <MdEdit />
+                                                        Edit
+                                                    </button>
+                                                </MenuItem>
 
-                                        <MenuItem>
-                                            <button onClick={handleOpenDeleteModal} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
-                                                <MdDelete />
-                                                Delete
-                                            </button>
-                                        </MenuItem>
+                                                <MenuItem>
+                                                    <button onClick={handleOpenDeleteModal} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
+                                                        <MdDelete />
+                                                        Delete
+                                                    </button>
+                                                </MenuItem>
 
-                                    </MenuItems>
+                                            </MenuItems>
+                                        )
+                                    }
 
                                 </Menu>
 
