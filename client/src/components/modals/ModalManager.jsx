@@ -1,11 +1,13 @@
-import Test from "./Test";
-import Test2 from "./Test2";
+import UpdatePostModal from "./post/UpdatePostModal";
+import DeletePostModal from "./post/DeletePostModal";
+import UserListModal from "./common/UserListModal";
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../store/modalStore';
 
 const modalComponents = { // MODAL LIST
-    Test: Test,
-    Test2: Test2,
+    UpdatePostModal: UpdatePostModal,
+    DeletePostModal: DeletePostModal,
+    UserListModal: UserListModal
 };
 
 const ModalManager = () => {
@@ -24,7 +26,7 @@ const ModalManager = () => {
         <SpecificModal
             isOpen={isOpen}
             close={close}
-            {...modalData}
+            modalData={modalData}
         />
     );
 }
