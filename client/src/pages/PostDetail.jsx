@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createComment, getPostById, likeComment, likePost, savePost } from "../services/postService";
 import useToast from './../hooks/useToast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -13,19 +13,24 @@ import { timeAgo } from './../utils/dateUtils';
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { MdDelete, MdEdit } from "react-icons/md";
+import { openModal } from "../store/modalStore";
 
 const PostDetail = () => {
     const { postId } = useParams();
     const { showToast } = useToast();
     const navigate = useNavigate();
+    const commentsEndRef = useRef(null);
+    const commentsContainerRef = useRef(null);
+    const dispatch = useDispatch();
+
     const [post, setPost] = useState();
     const [comment, setComment] = useState("");
     const [liked, setLiked] = useState(false);
     const [saved, setSaved] = useState(false);
+
     const userId = useSelector(state => state.user.user._id);
     const currentUser = useSelector(state => state.user.user);
-    const commentsEndRef = useRef(null);
-    const commentsContainerRef = useRef(null);
+
 
     const handleLike = async () => {
         const response = await likePost(post._id, userId);
@@ -50,9 +55,20 @@ const PostDetail = () => {
             navigate("/");
         }
         setPost(post);
-        setLiked(post.likes.includes(currentUser._id));
+        let lk = post.likes.filter(user => user._id === currentUser._id);
+        setLiked(lk.length > 0);
         setSaved(isSaved)
     };
+
+    let isModalOpen = useSelector(state => state.modal.isOpen);
+    const prevIsOpen = useRef(isModalOpen);
+
+    useEffect(() => {
+        if (prevIsOpen.current && !isModalOpen) {
+            fetchPost();  // Sadece modal kapatıldığında çalışır
+        }
+        prevIsOpen.current = isModalOpen;
+    }, [isModalOpen]);
 
     useEffect(() => {
         fetchPost();
@@ -87,6 +103,22 @@ const PostDetail = () => {
             behavior: "smooth"
         });
     };
+
+    const handleOpenEditModal = () => {
+        dispatch(openModal({ modalType: "UpdatePostModal", modalData: { caption: post.caption, postId } }))
+    }
+
+    const handleOpenLikesModal = () => {
+        dispatch(openModal({ modalType: "UserListModal", modalData: { list: post.likes, title: "Gönderiyi beğenenler" } }))
+    }
+
+    const handleOpenCommentLikesModal = (commentLikes) => {
+        dispatch(openModal({ modalType: "UserListModal", modalData: { list: commentLikes, title: "Yorumu beğenenler" } }))
+    }
+
+    const handleOpenDeleteModal = () => {
+        dispatch(openModal({ modalType: "DeletePostModal", modalData: { postId } }))
+    }
 
     useEffect(() => {
         scrollToBottom();
@@ -145,14 +177,14 @@ const PostDetail = () => {
                                         className="w-52 origin-top-right rounded-xl border border-light-border dark:border-dark-border bg-white dark:bg-dark-bg-secondary p-1 text-sm/6 transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 shadow-lg dark:text-dark-text-primary text-light-text-primary"
                                     >
                                         <MenuItem>
-                                            <button onClick={() => console.log("Edit çalıştı")} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
+                                            <button onClick={handleOpenEditModal} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
                                                 <MdEdit />
                                                 Edit
                                             </button>
                                         </MenuItem>
 
                                         <MenuItem>
-                                            <button onClick={() => console.log("Delete çalıştı")} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
+                                            <button onClick={handleOpenDeleteModal} className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-light-hover dark:data-[focus]:bg-dark-dropdown-bg-hover cursor-pointer">
                                                 <MdDelete />
                                                 Delete
                                             </button>
@@ -190,11 +222,16 @@ const PostDetail = () => {
                                                     className="text-lg hover:text-red-500 transition cursor-pointer"
                                                     onClick={() => handleCommentLike(comment._id)}
                                                 >
-                                                    {comment.likes?.includes(userId) ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+                                                    {comment.likes?.some(like => like._id === userId) ? (
+                                                        <FaHeart className="text-red-500" />
+                                                    ) : (
+                                                        <FaRegHeart />
+                                                    )}
+
                                                 </button>
                                             </div>
                                             <div className="ml-10 text-xs text-gray-500">
-                                                {timeAgo(comment.createdAt)} - {comment.likes.length} beğenme
+                                                {timeAgo(comment.createdAt)} - <button onClick={() => handleOpenCommentLikesModal(comment.likes)}>{comment.likes.length} beğenme</button>
                                             </div>
                                         </div>
                                     );
@@ -232,7 +269,7 @@ const PostDetail = () => {
                                 </div>
 
                                 {/* Beğeni Sayısı */}
-                                <div className="font-semibold py-1">{post.likes.length} beğenme</div>
+                                <div className="font-semibold py-1"><button className="cursor-pointer" onClick={handleOpenLikesModal}>{post.likes.length} beğenme</button></div>
 
                                 {/* Tarih */}
                                 <div className="text-gray-500 text-xs">{timeAgo(post.createdAt)}</div>

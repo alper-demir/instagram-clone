@@ -44,13 +44,31 @@ export const savePost = async (postId, userId) => {
     try {
         const response = await axiosInstance.put(`${API_URL}/${postId}/save`, { userId });
         console.log(response);
-        
+
         return { type: "success", message: response.data.message, isSaved: response.data.isSaved, updatedPost: response.data.updatedPost };
     } catch (error) {
         return { type: "error", message: "Error saving post" };
     }
 };
 
+export const updatePost = async (postId, caption) => {
+    try {
+        const response = await axiosInstance.put(`${API_URL}/${postId}`, { caption });
+        console.log(response.data);
+
+    } catch (error) {
+        return { message: error.message, type: "error" }
+    }
+}
+
+export const deletePost = async (postId) => {
+    try {
+        const response = await axiosInstance.delete(`${API_URL}/${postId}`);
+        return { message: response.data.message };
+    } catch (error) {
+        console.error("Error post delete", error.message);
+    }
+}
 
 export const likeComment = async (commentId, userId) => {
     try {
