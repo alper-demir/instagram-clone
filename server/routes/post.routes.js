@@ -8,7 +8,7 @@ const postRouter = express.Router();
 postRouter.get("/timeline-posts/:userId", protectedRoute, getTimelinePosts);
 
 postRouter.post("/", protectedRoute, createPost);
-postRouter.put("/postId", protectedRoute, updatePost);
+postRouter.put("/:postId", protectedRoute, updatePost);
 postRouter.delete("/:postId", protectedRoute, deletePost);
 postRouter.get("/:postId/:userId", protectedRoute, getOnePost);
 
