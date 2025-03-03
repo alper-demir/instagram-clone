@@ -63,8 +63,8 @@ export const updatePost = async (postId, caption) => {
 
 export const deletePost = async (postId) => {
     try {
-        const response = await axiosInstance.delete(`${API_URL}/${postId}`);
-        return { message: response.data.message };
+        await axiosInstance.delete(`${API_URL}/${postId}`);
+        return { message: "Gönderi silindi" };
     } catch (error) {
         console.error("Error post delete", error.message);
     }
