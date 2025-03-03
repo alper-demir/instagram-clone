@@ -66,7 +66,7 @@ const footerLinks = [
 
 const Footer = () => {
     return (
-        <footer className=" items-center flex text-[#a8a6a6] text-xs flex-col mt-20 mb-10 overflow-auto flex-nowrap text-center">
+        <footer className=" items-center flex text-[#a8a6a6] text-xs flex-col mt-20 pb-10 overflow-auto flex-nowrap text-center">
             <div>
                 <ul className="flex flex-row flex-wrap justify-center">
                     {footerLinks.map(link => (
