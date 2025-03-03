@@ -2,17 +2,24 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { deletePost } from "../../../services/postService";
 import useToast from "../../../hooks/useToast";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const DeletePostModal = ({ isOpen, close, modalData }) => {
 
     const { showToast } = useToast();
     const navigate = useNavigate();
+    const { username } = useSelector(state => state.user.user);
 
     const handleDeletePost = async () => {
         const { message } = await deletePost(modalData.postId)
-        if (message) { showToast(message, "success") }
-        close();
-        navigate("/")
+        if (message) {
+            showToast(message, "success")
+            close();
+            navigate(`/${username}`)
+        } else {
+            showToast("Bir sorun oldu", "error");
+            navigate("/")
+        }
     }
 
     return (
