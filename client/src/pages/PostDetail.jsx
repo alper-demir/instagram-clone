@@ -64,7 +64,7 @@ const PostDetail = () => {
     const prevIsOpen = useRef(isModalOpen);
 
     useEffect(() => {
-        if (prevIsOpen.current && !isModalOpen) {
+        if (prevIsOpen.current && !isModalOpen && window.location.pathname.startsWith("/post")) {
             fetchPost();  // Sadece modal kapatıldığında çalışır
         }
         prevIsOpen.current = isModalOpen;
