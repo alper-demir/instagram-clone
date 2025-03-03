@@ -16,6 +16,20 @@ export const loginUser = async (user) => {
     }
 }
 
+export const registerUser = async (firstName, lastName, email, username, password) => {
+    try {
+        const response = await axios.post(`${API_URL}/register`, { firstName, lastName, username, email, password }, {
+            validateStatus: (status) => status < 500 // 500'den küçük tüm durum kodlarını hata olarak görme
+        })
+        console.log(response);
+
+        let type = response.status !== 201 ? "error" : "success"
+        return { message: response.data.message, type }
+    } catch (error) {
+        return { message: error.message, type: "error" };
+    }
+}
+
 export const logout = () => {
     localStorage.removeItem('token');
 }
