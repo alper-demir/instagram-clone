@@ -7,6 +7,7 @@ import ModalManager from "../components/modals/ModalManager";
 const MainLayout = () => {
     const location = useLocation();
     const isChatPage = location.pathname.startsWith("/direct");
+    const isAccountsPage = location.pathname.startsWith("/accounts");
 
     useEffect(() => {
         const storedTheme = localStorage.getItem("theme");
@@ -27,10 +28,10 @@ const MainLayout = () => {
                     <div className="w-full mx-auto flex-1">
                         <Outlet />
                     </div>
-                    {!isChatPage && <Footer />}
+                    {!isChatPage && !isAccountsPage && <Footer />}
                 </div>
             </div>
-            <ModalManager/>
+            <ModalManager />
         </div>
     );
 };
