@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 const useAuth = () => {
 
-    const API_URL = import.meta.env.VITE_API_AUTH_URL;
+    const API_URL = import.meta.env.VITE_API_AUTH_URL || "/api/auth";
 
     const [isAuthenticated, setIsAuthenticated] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
