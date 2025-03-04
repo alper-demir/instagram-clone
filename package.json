@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch server.js",
-    "start": "node server.js"
+    "dev": "SET NODE_ENV=development && node --watch server/server.js",
+    "start": "SET NODE_ENV=production && node server/server.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "type": "module",
   "keywords": [],

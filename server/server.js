@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import dotenv from "dotenv"
 import cors from "cors";
@@ -29,5 +30,14 @@ const PORT = process.env.PORT || 5000;
 
 connection();
 const io = socketConfig(server);
+
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV.trim() === "production") {
+    app.use(express.static(path.join(__dirname, "/client/dist")));
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+    });
+}
 
 server.listen(PORT, () => { console.log(`Server is running on port ${PORT}`) }); 
