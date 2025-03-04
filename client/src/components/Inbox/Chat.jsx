@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
 const Chat = () => {
-    const socket = io(import.meta.env.VITE_API_BASE_URL);
+    const socket = io(import.meta.env.VITE_API_BASE_URL || "/");
     const { conversationId } = useParams();
     const [messageText, setMessageText] = useState("");
     const [messages, setMessages] = useState([]);
