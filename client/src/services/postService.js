@@ -1,7 +1,7 @@
 import axios from "axios";
 import axiosInstance from "../api/axiosInstance";
 
-const API_URL = import.meta.env.VITE_API_POST_URL;
+const API_URL = import.meta.env.VITE_API_POST_URL || "/api/posts";
 const token = localStorage.getItem("token")
 
 export const getPostById = async (postId, userId) => {

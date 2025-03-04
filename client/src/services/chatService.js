@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const CONVERSATION_API_URL = import.meta.env.VITE_API_CONVERSATION_URL;
-const MESSAGE_API_URL = import.meta.env.VITE_API_MESSAGE_URL;
+const CONVERSATION_API_URL = import.meta.env.VITE_API_CONVERSATION_URL || "/api/conversations";
+const MESSAGE_API_URL = import.meta.env.VITE_API_MESSAGE_URL || "/api/messages";
 const token = localStorage.getItem("token");
 
 export const getConversations = async (userId) => {

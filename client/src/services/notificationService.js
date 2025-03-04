@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_USER_URL;
+const API_URL = import.meta.env.VITE_API_USER_URL || "/api/users";
 const token = localStorage.getItem("token");
 
 export const getNotifications = async (userId) => {
