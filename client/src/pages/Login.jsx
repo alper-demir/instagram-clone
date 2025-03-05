@@ -53,24 +53,16 @@ const Login = () => {
 
     }, [ref])
     const handleName = (e) => {
-        const newUsername = e.target.value
-        setUsername(newUsername)
-        disabledHandle(newUsername, password)
-    }
+        setUsername(e.target.value);
+    };
 
     const handlePassword = (e) => {
-        const newPassword = e.target.value
-        setPassword(newPassword)
-        disabledHandle(name, newPassword)
-    }
+        setPassword(e.target.value);
+    };
 
-    const disabledHandle = (newUsername, newPassword) => {
-        if (newUsername.length > 0 && newPassword.length > 5) {
-            setDisabled(false)
-        } else {
-            setDisabled(true)
-        }
-    }
+    useEffect(() => {
+        setDisabled(!(username.length > 0 && password.length > 5));
+    }, [username, password]);
 
     const handleShowButton = () => {
         hidden ? setHidden(false) : setHidden(true)
@@ -125,7 +117,7 @@ const Login = () => {
                                     disabled ? (
                                         <button type='submit' disabled className='text-white bg-[#4DB5F9] rounded-lg py-1 my-1'>Giriş yap</button>
                                     ) : (
-                                        <button type='button' onClick={handleLogin} className='text-white bg-[#4DB5F9] hover:bg-[#1877F2] rounded-lg py-1 my-1'>Giriş yap</button>
+                                        <button type='button' onClick={handleLogin} className='text-white bg-[#4DB5F9] hover:bg-[#1877F2] rounded-lg py-1 my-1 cursor-pointer'>Giriş yap</button>
                                     )
                                 }
 
