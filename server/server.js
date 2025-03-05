@@ -11,6 +11,7 @@ import conversationRouter from "./routes/conversation.routes.js";
 import messageRouter from "./routes/message.routes.js";
 import cloudinary from "./config/cloudinary.js";
 import socketConfig from "./config/socketConfig.js";
+import "./cron/cron.js";
 
 const app = express();
 const server = http.createServer(app);
