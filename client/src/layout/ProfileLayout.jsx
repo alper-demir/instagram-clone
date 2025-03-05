@@ -7,6 +7,7 @@ import Loading from "../components/Loading";
 import { startConversation } from "../services/chatService";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "../store/modalStore";
+import defaultAvatar from "../assets/images/defaultAvatar.jpg";
 
 const ProfileLayout = () => {
 
@@ -76,7 +77,7 @@ const ProfileLayout = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 h-screen">
             <div className="mt-3 flex flex-col sm:flex-row gap-x-6 items-center border-b-[1px] border-light-border dark:border-dark-border p-10 pb-12 w-full">
                 <div className="flex-shrink-0">
-                    <img src={user && user.profilePicture} alt="" className="w-36 h-36 object-cover rounded-full" />
+                    <img src={user && user.profilePicture || defaultAvatar} alt="" className="w-36 h-36 object-cover rounded-full" />
                 </div>
                 <div className="flex flex-col gap-y-5 sm:ml-20 sm:-mt-14 mt-6">
                     <div className="flex flex-col sm:flex-row gap-x-6 justify-evenly items-center">

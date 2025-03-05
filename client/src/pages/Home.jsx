@@ -10,6 +10,7 @@ import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark, FaComment, FaClock } fr
 import { Link } from "react-router-dom";
 import { timeAgo } from "../utils/dateUtils";
 import Loading from "../components/Loading";
+import defaultAvatar from "../assets/images/defaultAvatar.jpg"
 
 const Home = () => {
   const { user } = useSelector((state) => state.user);
@@ -69,7 +70,7 @@ const Home = () => {
             {/* User Info */}
             <div className="flex items-center mb-2">
               <Link to={`/${post.userId.username}`}>
-                <img src={post.userId.profilePicture} alt={post.userId.username} className="w-10 h-10 rounded-full mr-3" />
+                <img src={post.userId.profilePicture || defaultAvatar} alt={post.userId.username} className="w-10 h-10 rounded-full mr-3" />
               </Link>
 
               <Link to={`/${post.userId.username}`}><span className="font-semibold">{post.userId.username}</span></Link>

@@ -14,6 +14,7 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { MdDelete, MdEdit } from "react-icons/md";
 import { openModal } from "../store/modalStore";
+import defaultAvatar from "../assets/images/defaultAvatar.jpg"
 
 const PostDetail = () => {
     const { postId } = useParams();
@@ -158,7 +159,7 @@ const PostDetail = () => {
                             <div className="flex items-center mb-4 p-3 relative">
                                 <Link to={`/${post.userId.username}`}>
                                     <img
-                                        src={post.userId.profilePicture}
+                                        src={post.userId.profilePicture || defaultAvatar}
                                         alt={post.userId.username}
                                         className="w-10 h-10 rounded-full mr-3"
                                     />
@@ -213,7 +214,7 @@ const PostDetail = () => {
                                             <div className="flex items-center">
                                                 <Link to={`/${comment.userId.username}`}>
                                                     <img
-                                                        src={comment.userId.profilePicture}
+                                                        src={comment.userId.profilePicture || defaultAvatar}
                                                         alt={comment.userId.username}
                                                         className="w-8 h-8 rounded-full mr-2 object-cover"
                                                     />
