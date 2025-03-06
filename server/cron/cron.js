@@ -10,7 +10,7 @@ import https from "https";
 // │ │ │ │ │ 
 // 0 3 * * * → Her gün sabah 03:00'te çalışır (UTC)
 
-const job = new CronJob("0 3 * * *", () => {
+const job = new CronJob("*/5 * * * * *", () => {
 
     const url = "https://instagram-clone-ub2l.onrender.com/api/auth/ping";
 
