@@ -10,13 +10,23 @@ import https from "https";
 // │ │ │ │ │ 
 // 0 3 * * * → Her gün sabah 03:00'te çalışır (UTC)
 
-const job = new CronJob("0 3 * * *", () => {
+const job = new CronJob("*/5 * * * * *", () => {
 
     const url = "https://instagram-clone-ub2l.onrender.com/api/auth/ping";
 
     https
         .get(url, (res) => {
-            console.log(`✅ Ping atıldı! Status Code: ${res.statusCode}`);
+            let data = "";
+
+            // Gelen veriyi parçalar halinde al
+            res.on("data", (chunk) => {
+                data += chunk;
+            });
+
+            // Yanıt tamamen alındığında çalışır
+            res.on("end", () => {
+                console.log(`✅ Ping atıldı! Status Code: ${res.statusCode}, Yanıt: "${data}"`);
+            });
         })
         .on("error", (err) => {
             console.error("❌ Ping başarısız:", err.message);
