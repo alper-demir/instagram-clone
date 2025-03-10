@@ -31,7 +31,7 @@ const job = new CronJob("0 0 * * *", () => {
         .on("error", (err) => {
             console.error("❌ Ping başarısız:", err.message);
         });
-}, null, true, "Europe/Istanbul");
+});
 
 // Cron job'u başlat
 job.start();
