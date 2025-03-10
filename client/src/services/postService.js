@@ -85,8 +85,8 @@ export const uploadMediaToCloudinary = async (files) => {
     for (const file of files) {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET); // ✅ Upload preset ekliyoruz!
-        formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY); // Opsiyonel
+        formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || "client_preset"); // ✅ Upload preset ekliyoruz!
+        formData.append("api_key", import.meta.env.VITE_CLOUDINARY_API_KEY || "696215464711432"); // Opsiyonel
 
         try {
             const response = await axios.post(
